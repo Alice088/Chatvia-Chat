@@ -2,44 +2,42 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use DB;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
 
     /**
-     * The attributes that are mass assignable.
+     * get User
      *
-     * @var array<int, string>
+     * @param int $id
+     *
+     * @return User | \Exception | null
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    public function get(int $id): User|\Exception|null
+    {
+        try {
+            return DB::table("users")->find($id) ?? null;
+        } catch (\Exception $error) {
+            print_r($error);
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+            return (object) [ 
+                "ERROR" => true,
+                "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",
+                "ERROR_CODE" => $error->getCode() ?? 500,
+            ];
+        }
+    }
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    //public function add(User $user): User|null
+    //{
+    //    try {
+    //        DB::table("");
+    //    }
+    //    ;
+    //}
 }
