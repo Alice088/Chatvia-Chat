@@ -1,5 +1,5 @@
 {
-    "name": "ChatviaChat",
+    "name": "laravel/laravel",
     "type": "project",
     "description": "Backend part of Chatvia chat on PHP",
     "keywords": [ "laravel", "framework" ],
@@ -27,7 +27,11 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        
+        "files": [
+            "app/Helpers/createRememberToken.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
