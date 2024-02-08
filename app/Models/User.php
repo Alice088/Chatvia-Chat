@@ -7,25 +7,29 @@ use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use \Illuminate\Support\Collection;
 
 class User extends Model
 {
     use HasFactory;
 
-    public static function getBy(string $columnName, string $value): array
+    public static function getBy(mixed $columnName, mixed $operator = "=", mixed $value, string|array $select = ["*"]): array
     {
         try {
+
             $user = DB::table("users")
-                ->where($columnName, $value)
+                ->where($columnName, $operator, $value)
+                ->select($select)
                 ->get();
 
             if ($user->isEmpty()) {
-                throw new Exception("User not found", 404);
+                return [
+                    "ERROR"         => true,
+                    "ERROR_MESSAGE" => "User not found",
+                    "ERROR_CODE"    => 404,
+                ];
             } else {
-                $user = $user[ 0 ];
+                $user        = $user[0];
                 $user->CHATS = Chat::getAllWhereIsUser($user->ID)["CHATS"];
-
 
                 return [
                     "ERROR" => false,
@@ -33,8 +37,6 @@ class User extends Model
                 ];
             }
         } catch (Exception $error) {
-            print_r($error);
-
             return [
                 "ERROR"         => true,
                 "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",
@@ -43,26 +45,24 @@ class User extends Model
         }
     }
 
-    public function add(User $user): array|Exception
+    public static function add(array $user): array
     {
         try {
             $rememberToken = createRememberToken();
 
             DB::table("users")->insert([
-                "USERNAME"       => $user[ "USERNAME" ],
-                "EMAIL"          => $user[ "EMAIL" ],
-                "PASSWORD"       => password_hash($user[ "PASSWORD" ], PASSWORD_DEFAULT),
+                "USERNAME"       => $user["USERNAME"],
+                "EMAIL"          => $user["EMAIL"],
+                "PASSWORD"       => password_hash($user["PASSWORD"], PASSWORD_DEFAULT),
                 "REMEMBER_TOKEN" => $rememberToken,
             ]);
 
-            return (object) [
+            return [
                 "ERROR"          => false,
-                'REMEMBER_TOKEN' => $rememberToken,
+                "REMEMBER_TOKEN" => $rememberToken,
             ];
         } catch (Exception $error) {
-            print_r($error);
-
-            return (object) [
+            return [
                 "ERROR"         => true,
                 "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",
                 "ERROR_CODE"    => $error->getCode() ?? 500,
@@ -70,18 +70,16 @@ class User extends Model
         }
     }
 
-    public function deleteUser(int $id): array|Exception
+    public function deleteUser(int $id): array
     {
         try {
             DB::table("users")->where("id", "=", $id)->delete();
 
-            return (object) [
+            return [
                 "ERROR" => false
             ];
         } catch (Exception $error) {
-            print_r($error);
-
-            return (object) [
+            return [
                 "ERROR"         => true,
                 "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",
                 "ERROR_CODE"    => $error->getCode() ?? 500,
@@ -89,20 +87,18 @@ class User extends Model
         }
     }
 
-    public function editPassword(int $id, string $password): array|Exception
+    public function editPassword(int $id, string $password): array
     {
         try {
             DB::table("users")
                 ->where("id", $id)
                 ->update(["PASSWORD" => password_hash($password, PASSWORD_DEFAULT)]);
 
-            return (object) [
+            return [
                 "ERROR" => false
             ];
         } catch (Exception $error) {
-            print_r($error);
-
-            return (object) [
+            return [
                 "ERROR"         => true,
                 "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",
                 "ERROR_CODE"    => $error->getCode() ?? 500,
@@ -110,7 +106,7 @@ class User extends Model
         }
     }
 
-    public function editRememberToken(int $id)
+    public function editRememberToken(int $id): array
     {
         try {
             $rememberToken = createRememberToken();
@@ -121,14 +117,12 @@ class User extends Model
                     "REMEMBER_TOKEN" => $rememberToken,
                 ]);
 
-            return (object) [
+            return [
                 "ERROR"          => false,
                 'REMEMBER_TOKEN' => $rememberToken,
             ];
         } catch (Exception $error) {
-            print_r($error);
-
-            return (object) [
+            return [
                 "ERROR"         => true,
                 "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",
                 "ERROR_CODE"    => $error->getCode() ?? 500,

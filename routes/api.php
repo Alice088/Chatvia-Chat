@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Auth\v1\LoginController;
+use App\Http\Controllers\v1\Auth\LoginController;
+use App\Http\Controllers\v1\Auth\RegistrationContoller;
 use Illuminate\Support\Facades\Route;
 
 /*--------------------------------------------------------------------------
@@ -9,5 +10,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::name('Auth')->group(function () {
-    Route::post('Auth/v1/login', [LoginController::class, 'login']);
+    Route::post('Auth/login', [LoginController::class, 'login']);
+    Route::post('Auth/registration', [RegistrationContoller::class, 'register']);
 });
