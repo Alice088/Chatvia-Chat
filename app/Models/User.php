@@ -87,7 +87,7 @@ class User extends Model
         }
     }
 
-    public function editPassword(int $id, string $password): array
+    public static function editPassword(int $id, string $password): array
     {
         try {
             DB::table("users")

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\v1\Auth\QuickLogin;
 use App\Http\Resources\v1\UserResource;
 use App\Http\Resources\v1\ErrorResource;
 use App\Models\User;
@@ -20,15 +21,24 @@ class LoginController extends Controller
         } elseif (password_verify($request->input("PASSWORD"), $data["USER"]->PASSWORD)) {
             $response = new Response(new UserResource($data));
 
-            if ($request->input("REMEMBER")) {
-                $createTokenResult = User::updateRememberToken($data["USER"]->ID);
+            switch ($request->input("REMEMBER")) {
+                case true: {
+                    $createTokenResult = User::updateRememberToken($data["USER"]->ID);
 
-                $response->withCookie(cookie(
-                    'REMEMBER_TOKEN',
-                    $createTokenResult["ERROR"] ? $data["USER"]->REMEMBER_TOKEN : $createTokenResult["REMEMBER_TOKEN"],
-                    //if create token went wrong then it will use the old remember_token from BD.
-                    2880)
-                );
+                    $response->withCookie(cookie(
+                        'REMEMBER_TOKEN',
+                        $createTokenResult["ERROR"] ? $data["USER"]->REMEMBER_TOKEN : $createTokenResult["REMEMBER_TOKEN"],
+                        //if create token went wrong then it will use the old remember_token from BD.
+                        2880)
+                    );
+
+                    break;
+                }
+
+                case false: {
+                    $request->cookie("REMEMBER_TOKEN") ? \Cookie::forget("REMEMBER_TOKEN") : null;
+                    break;
+                }
             }
 
             return $response;
@@ -39,5 +49,14 @@ class LoginController extends Controller
 
             return new ErrorResource($data);
         }
+    }
+
+    public function quickLogin(QuickLogin $request)
+    {
+        $rememberToken = $request->cookie("REMEMBER_TOKEN");
+
+        $userData = User::getBy("REMEMBER_TOKEN", "LIKE", $rememberToken);
+        
+        return new Response(new UserResource($userData));
     }
 }
