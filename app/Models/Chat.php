@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Exception;
 use DB;
 
@@ -12,7 +11,7 @@ class Chat extends Model
 {
     use HasFactory;
 
-    public function get(array $ids): Collection|Exception
+    public function get(array $ids): array
     {
         try {
             $chat = DB::table("chats")
@@ -20,19 +19,16 @@ class Chat extends Model
                 ->get()
             ;
 
-
             if ($chat->isEmpty()) {
                 throw new Exception("Chat not found", 404);
             } else {
-                return (object) [
+                return [
                     "ERROR" => false,
-                    "CHAT"  => $chat[ 0 ]
+                    "CHAT"  => $chat[0]
                 ];
             }
         } catch (Exception $error) {
-            print_r($error);
-
-            return (object) [
+            return [
                 "ERROR"         => true,
                 "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",
                 "ERROR_CODE"    => $error->getCode() ?? 500,
@@ -40,22 +36,20 @@ class Chat extends Model
         }
     }
 
-    public function add(Chat $chat): array|Exception
+    public function add(Chat $chat): array
     {
         try {
             DB::table("chats")->insert([
-                "TITLE"        => $chat[ "TITLE" ],
-                "OWNER_ID_TWO" => $chat[ "OWNER_ID_TWO" ],
-                "OWNER_ID_ONE" => $chat[ "OWNER_ID_ONE" ],
+                "TITLE"        => $chat["TITLE"],
+                "OWNER_ID_TWO" => $chat["OWNER_ID_TWO"],
+                "OWNER_ID_ONE" => $chat["OWNER_ID_ONE"],
             ]);
 
-            return (object) [
+            return [
                 "ERROR" => false,
             ];
         } catch (Exception $error) {
-            print_r($error);
-
-            return (object) [
+            return [
                 "ERROR"         => true,
                 "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",
                 "ERROR_CODE"    => $error->getCode() ?? 500,
@@ -63,18 +57,16 @@ class Chat extends Model
         }
     }
 
-    public function deleteChat(int $id): array|Exception
+    public function deleteChat(int $id): array
     {
         try {
             DB::table("users")->where("id", "=", $id)->delete();
 
-            return (object) [
+            return [
                 "ERROR" => false
             ];
         } catch (Exception $error) {
-            print_r($error);
-
-            return (object) [
+            return [
                 "ERROR"         => true,
                 "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",
                 "ERROR_CODE"    => $error->getCode() ?? 500,
@@ -96,8 +88,6 @@ class Chat extends Model
                 "CHATS" => !!$chats->all() ? $chats->all() : null
             ];
         } catch (Exception $error) {
-            print_r($error);
-
             return [
                 "ERROR"         => true,
                 "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",

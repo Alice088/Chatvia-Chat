@@ -19,10 +19,17 @@ class LoginController extends Controller
             return new ErrorResource($data);
         } elseif (password_verify($request->input("PASSWORD"), $data["USER"]->PASSWORD)) {
             $response = new Response(new UserResource($data));
-            $request->input("REMEMBER")
-                ? $response->withCookie(cookie('REMEMBER_TOKEN', $data["USER"]->REMEMBER_TOKEN, 2880)) //добавить добавление токена
-                : null
-            ;
+
+            if ($request->input("REMEMBER")) {
+                $createTokenResult = User::updateRememberToken($data["USER"]->ID);
+
+                $response->withCookie(cookie(
+                    'REMEMBER_TOKEN',
+                    $createTokenResult["ERROR"] ? $data["USER"]->REMEMBER_TOKEN : $createTokenResult["REMEMBER_TOKEN"],
+                    //if create token went wrong then it will use the old remember_token from BD.
+                    2880)
+                );
+            }
 
             return $response;
         } else {

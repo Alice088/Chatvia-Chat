@@ -106,7 +106,7 @@ class User extends Model
         }
     }
 
-    public function editRememberToken(int $id): array
+    public static function updateRememberToken(int $id): array
     {
         try {
             $rememberToken = createRememberToken();

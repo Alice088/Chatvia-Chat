@@ -21,10 +21,14 @@ class RegistrationContoller extends Controller
             if ($dataUser["ERROR"]) {
                 return new ErrorResource($dataUser);
             } else {
-                $newUser  = User::getBy(columnName: "EMAIL", operator: "LIKE", value: $request->input("EMAIL"));
+                $newUser = User::getBy(columnName: "EMAIL", operator: "LIKE", value: $request->input("EMAIL"));
 
                 $response = new Response(new UserResource($newUser));
-                $response->withCookie(cookie("REMEMBER_TOKEN", $dataUser["REMEMBER_TOKEN"], 2880));
+
+                $request->input("REMEMBER")
+                    ? $response->withCookie(cookie('REMEMBER_TOKEN', $dataUser["REMEMBER_TOKEN"], 2880))
+                    : null
+                ;
 
                 return $response;
             }
