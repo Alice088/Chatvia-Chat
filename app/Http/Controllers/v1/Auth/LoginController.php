@@ -9,6 +9,8 @@ use App\Http\Resources\v1\ErrorResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cookie;
+
 
 class LoginController extends Controller
 {
@@ -36,7 +38,7 @@ class LoginController extends Controller
                 }
 
                 case false: {
-                    $request->cookie("REMEMBER_TOKEN") ? \Cookie::forget("REMEMBER_TOKEN") : null;
+                    $response->withCookie(Cookie::forget("REMEMBER_TOKEN"));
                     break;
                 }
             }
@@ -56,7 +58,15 @@ class LoginController extends Controller
         $rememberToken = $request->cookie("REMEMBER_TOKEN");
 
         $userData = User::getBy("REMEMBER_TOKEN", "LIKE", $rememberToken);
-        
-        return new Response(new UserResource($userData));
+
+        switch ($userData["ERROR"]) {
+            case true: {
+                return new ErrorResource($userData);
+            }
+
+            case false: {
+                return new Response(new UserResource($userData));
+            }
+        }
     }
 }
