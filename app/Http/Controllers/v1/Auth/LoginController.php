@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\v1\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\v1\Auth\QuickLogin;
 use App\Http\Resources\v1\UserResource;
 use App\Http\Resources\v1\ErrorResource;
 use App\Models\User;
@@ -53,14 +52,31 @@ class LoginController extends Controller
         }
     }
 
-    public function quickLogin(QuickLogin $request)
+    public function quickLogin(Request $request)
     {
+        if (!Cookie::has("REMEMBER_TOKEN")) {
+            $error = [
+                "ERROR"         => true,
+                "ERROR_MESSAGE" => "A remember token not found",
+                "ERROR_CODE"    => 401,
+            ];
+
+            return new ErrorResource($error);
+        }
+
         $rememberToken = $request->cookie("REMEMBER_TOKEN");
 
         $userData = User::getBy("REMEMBER_TOKEN", "LIKE", $rememberToken);
 
         switch ($userData["ERROR"]) {
             case true: {
+                $userData["ERROR_MESSAGE"] = $userData['ERROR_CODE'] === 404
+                    ? "A remember isn't valid"
+                    : $userData['ERROR_MESSAGE']
+                ;
+
+                $userData["ERROC_CODE"] = 401;
+
                 return new ErrorResource($userData);
             }
 
