@@ -38,10 +38,6 @@ class LoginController extends Controller
                 }
 
                 case false: {
-<<<<<<< HEAD
-=======
-                    // Cookie::has("REMEMBER_TOKEN") ? Cookie::forget("REMEMBER_TOKEN", "/") : null;
->>>>>>> 61c7d73f5bdc74d1445f2f6101107d76a59cef15
                     $response->withCookie(Cookie::forget("REMEMBER_TOKEN"));
                     break;
                 }
