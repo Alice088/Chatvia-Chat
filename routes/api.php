@@ -15,4 +15,5 @@ Route::name("Auth")->group(function () {
     Route::post("Auth/login", [LoginController::class, "login"]);
     Route::post("Auth/registration", [RegistrationContoller::class, "register"]);
     Route::post("Auth/reset", [ResetController::class, "reset"]);
+    Route::post("Auth/quickLoign", [LoginController::class, "quickLogin"]);
 });
