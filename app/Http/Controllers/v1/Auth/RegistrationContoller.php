@@ -4,7 +4,7 @@ namespace App\Http\Controllers\v1\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\v1\ErrorResource;
-use App\Http\Resources\v1\UserResource;
+use App\Http\Resources\v1\Auth\UserResource;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Http\Response;
