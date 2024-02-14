@@ -6,38 +6,38 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\v1\ErrorResource;
+use App\Mail\v1\Auth\ResetMail;
+use Mail;
 
 class ResetController extends Controller
 {
     public function reset(Request $request)
     {
-        $data = User::getBy("EMAIL", "LIKE", $request->input("EMAIL"));
+        try {
+            $data = User::getBy("EMAIL", "LIKE", $request->input("EMAIL"));
 
-        if ($data["ERROR"]) {
-            return new ErrorResource($data);
-        } else {
-            $newPassword = createRandomPassword();
-            $subject     = "Reset password from Chatvia-chat";
-            $text        = "Hello, {$data["USER"]->USERNAME}! \n
-            You have changed password in Chatvia-Chat, \n
-            here's your new password: $newPassword";
-            $headers     = 'From: gbawhjjejj@gmail.com' . "\r\n" .
-                'Reply-To: gbawhjjejj@gmail.com' . "\r\n" .
-                'X-Mailer: PHP/' . phpversion();
-            ;
+            if ($data["ERROR"]) {
+                return new ErrorResource($data);
+            } else {
+                $newPassword = (string) app("PasswordManager")::createRandomPassword();
+                User::editPassword($data["USER"]->ID, $newPassword);
 
-            User::editPassword($data["USER"]->ID, $newPassword);
+                Mail::to($data["USER"]->EMAIL)->send((new ResetMail($newPassword)));
 
-            ini_set("SMTP", "smtp.gmail.com");
-            ini_set("smtp_port", "587");
-
-            mail($data["USER"]->EMAIL, $subject, $text, $headers);
-
-            return [
-                "data" => [
-                    "ERROR" => false
-                ]
+                return [
+                    "data" => [
+                        "ERROR" => false
+                    ]
+                ];
+            }
+        } catch (\Exception $error) {
+            $error = [
+                "ERROR"         => true,
+                "ERROR_MESSAGE" => $error->getMessage() ?? "Something went wrong",
+                "ERROR_CODE"    => $error->getCode() ?? 500,
             ];
+
+            return new ErrorResource($error);
         }
     }
 }

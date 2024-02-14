@@ -4,45 +4,45 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
 return [
-    'name' => env('APP_NAME', 'Chatvia-chat'),
+    'name'            => env('APP_NAME', 'Chatvia-chat'),
 
-    'env' => env('APP_ENV', 'production'),
+    'env'             => env('APP_ENV', 'production'),
 
-    'debug' => (bool) env('APP_DEBUG', true),
+    'debug'           => (bool) env('APP_DEBUG', true),
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url'             => env('APP_URL', 'http://localhost'),
 
-    'frontend_url' => env('FRONTEND_URL', 'http://localhost:3000'),
+    'frontend_url'    => env('FRONTEND_URL', 'http://localhost:3000'),
 
-    'asset_url' => env('ASSET_URL'),
+    'asset_url'       => env('ASSET_URL'),
 
-    'timezone' => 'GMT',
+    'timezone'        => 'GMT',
 
-    'locale' => 'en',
+    'locale'          => 'en',
 
     'fallback_locale' => 'en',
 
-    'faker_locale' => 'en_US',
+    'faker_locale'    => 'en_US',
 
-    'key' => env('APP_KEY'),
+    'key'             => env('APP_KEY'),
 
-    'cipher' => 'AES-256-CBC',
+    'cipher'          => 'AES-256-CBC',
 
-    'maintenance' => [
+    'maintenance'     => [
         'driver' => 'file',
     ],
 
-    'providers' => ServiceProvider::defaultProviders()->merge([
+    'providers'       => ServiceProvider::defaultProviders()->merge([
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
-        // App\Providers\HelperServiceProvider::class,
+        App\Providers\HelperServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
 
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
+    'aliases'         => Facade::defaultAliases()->merge([
+        // "RememberTokenManager" => App\Helpers\RememberTokenManager::class
     ])->toArray(),
 
 ];

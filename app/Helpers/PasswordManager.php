@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Helpers;
+namespace App\Helpers;
 
 class PasswordManager {
   /**
@@ -8,7 +8,7 @@ class PasswordManager {
    * app/Helpers/PasswordManager.php
    * @return string
    */
-  public function createRandomPassword():string {
+  public static function createRandomPassword():string {
     $alphabet    = "abcdefghijklmnopqrstuwxyzABCDEFGHIJKLMNOPQRSTUWXYZ0123456789";
     $pass        = array();
     $alphaLength = strlen($alphabet) - 1;

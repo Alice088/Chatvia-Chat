@@ -6,7 +6,6 @@ use DB;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Facades\RememberTokenManager;
 
 class User extends Model
 {
@@ -48,12 +47,12 @@ class User extends Model
     public static function add(array $user): array
     {
         try {
-            $rememberToken = RememberTokenManager::createRememberToken();
+            $rememberToken = (string) app("RememberTokenManager")::createRememberToken();
 
             DB::table("users")->insert([
                 "USERNAME"       => $user["USERNAME"],
                 "EMAIL"          => $user["EMAIL"],
-                "PASSWORD"       => password_hash($user["PASSWORD"], PASSWORD_DEFAULT),
+                "PASSWaORD"       => password_hash($user["PASSWORD"], PASSWORD_DEFAULT),
                 "REMEMBER_TOKEN" => $rememberToken,
             ]);
 
@@ -109,7 +108,7 @@ class User extends Model
     public static function updateRememberToken(int $id): array
     {
         try {
-            $rememberToken = RememberTokenManager::createRememberToken();
+            $rememberToken = (string) app("RememberTokenManager")::createRememberToken();
 
             DB::table("users")
                 ->where("id", "=", $id)
