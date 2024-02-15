@@ -1,28 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ru">
 
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ asset('style/MailBase.css/mailBase.css') }}">
-    <title> Laravel mail Send System </title>
+    <title>Laravel Mail System</title>
 </head>
 
 <body>
-    <section class="mailBox">
-        <header class="mailBox_header">
-            <h1>Hello from Chatvia-chat</h1>
-        </header>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+            <td align="center">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr>
+                        <td style="padding: 20px; text-align: center; font-family: Arial, sans-serif; font-size: 16px; line-height: 24px;">
+                            <h1>Hello from Chatvia-chat</h1>
 
-        <main class="mailBox_main">
-            <p class="mailBox_text"> You've changed your password, here's new password: {{ $newPassword }}</p>
-        </main>
+                            <hr>
 
-        <footer class="mailBox_footer">
-            <a href="{{$linkToChatvia_chat}}">Link to Chatvia-chat</a>
-        </footer>
-    </section>
+                            <p>Your password have changed. a new password:</p>
+                            <p style="font-weight: bold; font-size: 18px; color: #FFD700;">{{ $newPassword }}</p>
+
+                            <hr>
+                            <br>
+
+                            <a href="{{$linkToChatvia_chat}}">
+                                link to Chatvia-chat
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>
