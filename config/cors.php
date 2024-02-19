@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL_PROD')],
+    'allowed_origins' => ["*"], //убрать
 
     'allowed_origins_patterns' => [],
 
