@@ -15,5 +15,5 @@ Route::name("Auth")->group(function () {
     Route::post("Auth/login", [LoginController::class, "login"]);
     Route::post("Auth/registration", [RegistrationContoller::class, "register"]);
     Route::get("Auth/quickLogin", [LoginController::class, "quickLogin"]);
-    Route::get("Auth/reset", [ResetController::class, "reset"]);
+    Route::patch("Auth/reset", [ResetController::class, "reset"]);
 });
