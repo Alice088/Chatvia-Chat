@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::name("Auth")->group(function () {
-    Route::post("Auth/login", [LoginController::class, "login"]);
-    Route::post("Auth/registration", [RegistrationContoller::class, "register"]);
-    Route::get("Auth/quickLogin", [LoginController::class, "quickLogin"]);
-    Route::patch("Auth/reset", [ResetController::class, "reset"]);
+    Route::post("Auth/login", [LoginController::class, "login"])->name("Login");
+    Route::post("Auth/registration", [RegistrationContoller::class, "register"])->name("Registration");
+    Route::get("Auth/quickLogin", [LoginController::class, "quickLogin"])->name("QuickLogin");
+    Route::patch("Auth/reset", [ResetController::class, "reset"])->name("Reset");
 });
