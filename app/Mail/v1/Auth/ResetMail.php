@@ -44,7 +44,7 @@ class ResetMail extends Mailable
             view: 'v1.auth.ResetMailView',
             with: [
                 "newPassword" => $this->newPassword,
-                "linkToChatvia_chat" => env("FRONTEND_URL")
+                "linkToChatvia_chat" => env("FRONTEND_URL_PROD")
             ]
         );
     }
