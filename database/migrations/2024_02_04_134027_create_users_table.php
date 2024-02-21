@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->string("USERNAME", 20);
             $table->longText("PASSWORD");
             $table->string("EMAIL", 40);
-            $table->longText("REMEMBER_TOKEN")->unique()->nullable();
+            $table->string("REMEMBER_TOKEN",  1000)->unique('remember_token_unique')->nullable();
         });
     }
 
