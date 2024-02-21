@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Http\Response;
 
-class RegistrationContoller extends Controller
+class RegistrationController extends Controller
 {
     public function register(Request $request)
     {
