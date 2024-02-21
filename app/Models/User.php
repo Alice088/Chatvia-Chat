@@ -58,7 +58,7 @@ class User extends Model
 
             return [
                 "ERROR"          => false,
-                // "ID" =>
+                "ID"             => $columnId,
                 "REMEMBER_TOKEN" => $rememberToken,
             ];
         } catch (Exception $error) {
@@ -70,7 +70,7 @@ class User extends Model
         }
     }
 
-    public function deleteUser(int $id): array
+    public static function deleteUser(int $id): array
     {
         try {
             DB::table("users")->where("id", "=", $id)->delete();

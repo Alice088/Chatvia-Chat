@@ -27,13 +27,11 @@ class UserModelTest extends TestCase
 
         $this->assertFalse($addResult["ERROR"]);
         $this->assertDatabaseHas('users', [
-            "USERNAME"       => $username,
-            "EMAIL"          => $email,
-            "REMEMBER_TOKEN" => $result["REMEMBER_TOKEN"]
+            "ID" => $addResult["ID"],
         ]);
     }
 
-        public function test_delete(): void
+    public function test_delete(): void
     {
         Schema::connection('mysql_test');
         $username = fake()->name();
@@ -45,15 +43,10 @@ class UserModelTest extends TestCase
             "EMAIL"    => $email,
             "PASSWORD" => $password,
         ]);
-
+        
+        $deleteResult = User::deleteUser($addResult["ID"]);
+        
         $this->assertFalse($addResult["ERROR"]);
-
-        $deleteResult = User::deleteUser()
-
-        $this->assertDatabaseHas('users', [
-            "USERNAME"       => $username,
-            "EMAIL"          => $email,
-            "REMEMBER_TOKEN" => $result["REMEMBER_TOKEN"]
-        ]);
+        $this->assertFalse($deleteResult["ERROR"]);
     }
 }
