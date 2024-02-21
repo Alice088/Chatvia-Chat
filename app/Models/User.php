@@ -52,7 +52,7 @@ class User extends Model
             DB::table("users")->insert([
                 "USERNAME"       => $user["USERNAME"],
                 "EMAIL"          => $user["EMAIL"],
-                "PASSWaORD"       => password_hash($user["PASSWORD"], PASSWORD_DEFAULT),
+                "PASSWORD"       => password_hash($user["PASSWORD"], PASSWORD_DEFAULT),
                 "REMEMBER_TOKEN" => $rememberToken,
             ]);
 
