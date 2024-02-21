@@ -49,7 +49,7 @@ class User extends Model
         try {
             $rememberToken = (string) app("RememberTokenManager")::createRememberToken();
 
-            DB::table("users")->insert([
+            $columnId = DB::table("users")->insertGetId([
                 "USERNAME"       => $user["USERNAME"],
                 "EMAIL"          => $user["EMAIL"],
                 "PASSWORD"       => password_hash($user["PASSWORD"], PASSWORD_DEFAULT),
@@ -58,6 +58,7 @@ class User extends Model
 
             return [
                 "ERROR"          => false,
+                // "ID" =>
                 "REMEMBER_TOKEN" => $rememberToken,
             ];
         } catch (Exception $error) {
