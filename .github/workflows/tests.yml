@@ -47,6 +47,12 @@ jobs:
 
       - name: Copy environment file
         run: cp .env.example .env
+
+      - name: Generate app key
+        run: php artisan key:generate
+        
+      - name: Execute tests
+        run: vendor/bin/phpunit tests/Feature
         env:
           DATABASE_URL: ${{ vars.DATABASE_URL }}
           DB_DATABASE: ${{ vars.DB_DATABASE }}
@@ -54,11 +60,3 @@ jobs:
           DB_PASSWORD: ${{ vars.DB_PASSWORD }}
           DB_PORT: ${{ vars.DB_PORT }}
           DB_USERNAME: ${{ vars.DB_USERNAME }} 
-
-      - name: Generate app key
-        run: php artisan key:generate
-        
-      - run: echo "Database is ${{ vars.DB_DATABASE }}"
-
-      - name: Execute tests
-        run: vendor/bin/phpunit tests/Feature
