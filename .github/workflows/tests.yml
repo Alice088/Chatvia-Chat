@@ -44,6 +44,13 @@ jobs:
         run: composer install --prefer-dist --no-interaction --no-progress
       - run: echo "Composer dependencies have been installed"
 
+      env:
+        DB_HOST: ${{ vars.DB_HOST }}
+        DB_PORT: ${{ vars.DB_PORT }}
+        DB_DATABASE: ${{ vars.DB_DATABASE }}
+        DB_USERNAME: ${{ vars.DB_USERNAME}}
+        DB_PASSWORD: ${{ vars.DB_PASSWORD}}
+
       - name: Copy environment file
         run: cp .env.example .env
 
