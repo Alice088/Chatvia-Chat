@@ -48,20 +48,11 @@ jobs:
       - name: Copy environment file
         run: cp .env.example .env
         env:
-          DB_HOST: ${{ vars.DB_HOST }}
-          DB_PORT: ${{ vars.DB_PORT }}
+          DATABASE_URL: ${{ vars.DATABASE_URL }}
           DB_DATABASE: ${{ vars.DB_DATABASE }}
-          DB_USERNAME: ${{ vars.DB_USERNAME}}
-          DB_PASSWORD: ${{ vars.DB_PASSWORD}}
 
       - name: Generate app key
         run: php artisan key:generate
-        env:
-          DB_HOST: ${{ vars.DB_HOST }}
-          DB_PORT: ${{ vars.DB_PORT }}
-          DB_DATABASE: ${{ vars.DB_DATABASE }}
-          DB_USERNAME: ${{ vars.DB_USERNAME}}
-          DB_PASSWORD: ${{ vars.DB_PASSWORD}}
         
       - run: Database is ${{ vars.DB_DATABASE }}
 
