@@ -50,6 +50,11 @@ jobs:
 
       - name: Generate app key
         run: php artisan key:generate
+      
+      - name: Make migrate
+        run: php artisan migrate --force
+
+      - run: echo "made migration"
         
       - name: Execute tests
         run: vendor/bin/phpunit tests/Feature
