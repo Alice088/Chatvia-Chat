@@ -54,7 +54,8 @@ jobs:
       - name: Generate app key
         run: php artisan key:generate
         
-      - run: Database is ${{ vars.DB_DATABASE }}
+      - run: echo "Database is ${{ vars.DB_DATABASE }}"
+      - run: echo "URL is ${{ vars.DATABASE_URL }}"
 
       - name: Execute tests
         run: vendor/bin/phpunit tests/Feature
