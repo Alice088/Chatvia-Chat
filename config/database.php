@@ -97,12 +97,12 @@ return [
 
         'mysql_test' => [
             'driver'         => 'mysql',
-            'url'            => env('DATABASE_URL', $_ENV["DATABASE_URL"]),
-            'host'           => env('DB_HOST', $_ENV["DB_HOST"]),
-            'port'           => env('DB_PORT', $_ENV["DB_PORT"]),
-            'database'       => env('DB_DATABASE', $_ENV["DB_DATABASE"]),
-            'username'       => env('DB_USERNAME', $_ENV["DB_USERNAME"]),
-            'password'       => env('DB_PASSWORD', $_ENV["DB_PASSWORD"]),
+            'url'            => env('DATABASE_URL'),
+            'host'           => env('DB_HOST', '127.0.0.1'),
+            'port'           => env('DB_PORT', '3306'),
+            'database'       => env('DB_DATABASE'),
+            'username'       => env('DB_USERNAME', 'forge'),
+            'password'       => env('DB_PASSWORD', ''),
             'unix_socket'    => env('DB_SOCKET', ''),
             'charset'        => 'utf8mb4',
             'collation'      => 'utf8mb4_unicode_ci',
