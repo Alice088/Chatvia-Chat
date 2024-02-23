@@ -61,7 +61,7 @@ jobs:
           DB_DATABASE: ${{ vars.DB_DATABASE }}
           DB_USERNAME: ${{ vars.DB_USERNAME}}
           DB_PASSWORD: ${{ vars.DB_PASSWORD}}
-      run: echo 'Database; ' .  ${{ vars.DB_DATABASE }}
+        run: Database is ${{ vars.DB_DATABASE }}
 
       - name: Execute tests
         run: vendor/bin/phpunit tests/Feature
