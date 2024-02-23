@@ -97,7 +97,7 @@ return [
 
         'mysql_test' => [
             'driver'         => 'mysql',
-            'url'            => env('DATABASE_URL', $_ENV["DB_URL"]),
+            'url'            => env('DATABASE_URL', $_ENV["DATABASE_URL"]),
             'host'           => env('DB_HOST', $_ENV["DB_HOST"]),
             'port'           => env('DB_PORT', $_ENV["DB_PORT"]),
             'database'       => env('DB_DATABASE', $_ENV["DB_DATABASE"]),
