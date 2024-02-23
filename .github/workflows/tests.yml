@@ -50,12 +50,15 @@ jobs:
         env:
           DATABASE_URL: ${{ vars.DATABASE_URL }}
           DB_DATABASE: ${{ vars.DB_DATABASE }}
+          DB_HOST: ${{ vars.DB_HOST }}
+          DB_PASSWORD: ${{ vars.DB_PASSWORD }}
+          DB_PORT: ${{ vars.DB_PORT }}
+          DB_USERNAME: ${{ vars.DB_USERNAME }} 
 
       - name: Generate app key
         run: php artisan key:generate
         
       - run: echo "Database is ${{ vars.DB_DATABASE }}"
-      - run: echo "URL is ${{ vars.DATABASE_URL }}"
 
       - name: Execute tests
         run: vendor/bin/phpunit tests/Feature
