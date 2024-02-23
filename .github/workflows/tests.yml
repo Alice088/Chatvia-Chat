@@ -35,7 +35,7 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
-      - run: echo "PHP setuped"
+      - run: echo "PHP setup"
 
       - name: Update Composer dependencies
         run: composer update
@@ -55,6 +55,13 @@ jobs:
 
       - name: Generate app key
         run: php artisan key:generate
+        env:
+          DB_HOST: ${{ vars.DB_HOST }}
+          DB_PORT: ${{ vars.DB_PORT }}
+          DB_DATABASE: ${{ vars.DB_DATABASE }}
+          DB_USERNAME: ${{ vars.DB_USERNAME}}
+          DB_PASSWORD: ${{ vars.DB_PASSWORD}}
+      run: echo 'Database; ' .  ${{ vars.DB_DATABASE }}
 
       - name: Execute tests
         run: vendor/bin/phpunit tests/Feature
