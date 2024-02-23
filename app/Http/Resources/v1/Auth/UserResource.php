@@ -17,7 +17,7 @@ class UserResource extends JsonResource
         return [
             "data" => [
                 "ERROR"     => false,
-                "ID"        => $this["USER"]->ID,
+                "ID"        => $this["USER"]->USER_ID,
                 "USERNAME"  => $this["USER"]->USERNAME,
                 "CHATS_IDS" => $this["USER"]->CHATS,
             ]

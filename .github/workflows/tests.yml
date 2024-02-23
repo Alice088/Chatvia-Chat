@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop
       - '*.x'
   pull_request:
   schedule:
@@ -26,6 +27,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -33,12 +35,17 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
+      - run: echo "PHP setuped"
+
+      - name: Update Composer dependencies
+        run: composer update
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
+      - run: echo "Composer dependencies have been installed"
 
       - name: Copy environment file
-        run: cp .env.example .env
+        run: cp .env
 
       - name: Generate app key
         run: php artisan key:generate
