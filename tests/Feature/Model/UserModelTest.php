@@ -26,7 +26,7 @@ class UserModelTest extends TestCase
 
         $this->assertFalse($addResult["ERROR"], $addResult["ERROR_MESSAGE"] ?? '');
         $this->assertDatabaseHas('users', [
-            "ID" => $addResult["ID"],
+            "USER_ID" => $addResult["ID"],
         ]);
     }
 
@@ -60,12 +60,12 @@ class UserModelTest extends TestCase
             "EMAIL"    => fake()->unique()->safeEmail(),
             "PASSWORD" => fake()->unique()->password(10, 40),
         ]);
-
-        $getResult = User::getBy("ID", "=", $addResult["ID"]);
+        
+        $getResult = User::getBy("USER_ID", "=", $addResult["ID"]);
         DB::commit();
 
         $this->assertFalse($getResult["ERROR"],  $getResult["ERROR_MESSAGE"] ?? '');
-        $this->assertTrue($addResult["ID"] === $getResult["USER"]->ID);
+        $this->assertTrue($addResult["ID"] === $getResult["USER"]->USER_ID);
         $this->assertFalse($addResult["ERROR"],  $addResult["ERROR_MESSAGE"] ?? '');
     }
 
@@ -84,7 +84,7 @@ class UserModelTest extends TestCase
 
         DB::beginTransaction();
         $editResult = User::editPassword($addResult["ID"], $newPassword);
-        $getResult = User::getBy("ID", "=", $addResult["ID"]);
+        $getResult = User::getBy("USER_ID", "=", $addResult["ID"]);
         DB::commit();
 
         $this->assertFalse($getResult["ERROR"], $getResult["ERROR_MESSAGE"] ?? '');
@@ -106,7 +106,7 @@ class UserModelTest extends TestCase
         DB::commit();
 
         DB::beginTransaction();
-        $getResult = User::getBy("ID", "=", $addResult["ID"]);
+        $getResult = User::getBy("USER_ID", "=", $addResult["ID"]);
         $updateResult = User::updateRememberToken($addResult["ID"]);
         DB::commit();
 

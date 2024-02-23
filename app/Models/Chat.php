@@ -11,11 +11,11 @@ class Chat extends Model
 {
     use HasFactory;
 
-    public function get(array $ids): array
+    public static function get(array $ids): array
     {
         try {
             $chat = DB::table("chats")
-                ->whereIn("id", $ids)
+                ->whereIn("CHAT_ID", $ids)
                 ->get()
             ;
 
@@ -36,10 +36,10 @@ class Chat extends Model
         }
     }
 
-    public function add(Chat $chat): array
+    public static function add(array $chat): array
     {
         try {
-            DB::table("chats")->insert([
+            $chatId = DB::table("chats")->insertGetId([
                 "TITLE"        => $chat["TITLE"],
                 "OWNER_ID_TWO" => $chat["OWNER_ID_TWO"],
                 "OWNER_ID_ONE" => $chat["OWNER_ID_ONE"],
@@ -47,6 +47,7 @@ class Chat extends Model
 
             return [
                 "ERROR" => false,
+                "ID" => $chatId,
             ];
         } catch (Exception $error) {
             return [
@@ -57,10 +58,10 @@ class Chat extends Model
         }
     }
 
-    public function deleteChat(int $id): array
+    public static function deleteChat(int $id): array
     {
         try {
-            DB::table("users")->where("id", "=", $id)->delete();
+            DB::table("users")->where("USER_ID", "=", $id)->delete();
 
             return [
                 "ERROR" => false

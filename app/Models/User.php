@@ -28,7 +28,7 @@ class User extends Model
                 ];
             } else {
                 $user        = $user[0];
-                $user->CHATS = Chat::getAllWhereIsUser($user->ID)["CHATS"];
+                $user->CHATS = Chat::getAllWhereIsUser($user->USER_ID)["CHATS"];
 
                 return [
                     "ERROR" => false,
@@ -73,7 +73,7 @@ class User extends Model
     public static function deleteUser(int $id): array
     {
         try {
-            DB::table("users")->where("id", "=", $id)->delete();
+            DB::table("users")->where("USER_ID", "=", $id)->delete();
 
             return [
                 "ERROR" => false
@@ -91,7 +91,7 @@ class User extends Model
     {
         try {
             DB::table("users")
-                ->where("id", $id)
+                ->where("USER_ID", $id)
                 ->update(["PASSWORD" => password_hash($password, PASSWORD_DEFAULT)]);
 
             return [
@@ -112,7 +112,7 @@ class User extends Model
             $rememberToken = (string) app("RememberTokenManager")::createRememberToken();
 
             DB::table("users")
-                ->where("id", "=", $id)
+                ->where("USER_ID", "=", $id)
                 ->update([
                     "REMEMBER_TOKEN" => $rememberToken,
                 ]);
