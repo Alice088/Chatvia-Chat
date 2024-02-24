@@ -19,7 +19,7 @@ class UserResource extends JsonResource
                 "ERROR"     => false,
                 "ID"        => $this["USER"]->USER_ID,
                 "USERNAME"  => $this["USER"]->USERNAME,
-                "CHATS_IDS" => $this["USER"]->CHATS,
+                "CHATS" => $this["USER"]->CHATS,
             ]
         ];
     }

@@ -24,7 +24,7 @@ class LoginController extends Controller
 
             switch ($request->input("REMEMBER")) {
                 case true: {
-                    $createTokenResult = User::updateRememberToken($data["USER"]->ID);
+                    $createTokenResult = User::updateRememberToken($data["USER"]->USER_ID);
 
                     $response->withCookie(cookie(
                         'REMEMBER_TOKEN',
@@ -75,7 +75,7 @@ class LoginController extends Controller
                     : $userData['ERROR_MESSAGE']
                 ;
 
-                $userData["ERROC_CODE"] = 401;
+                $userData["ERROR_CODE"] = 401;
 
                 return new ErrorResource($userData);
             }

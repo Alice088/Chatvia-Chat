@@ -15,8 +15,6 @@ class ChatModelTest extends TestCase
 
     public function test_add(): void
     {
-        Schema::connection('mysql_test');
-
         DB::beginTransaction();
         $addUserResult = User::add([
             "USERNAME" => "Dr. Test",
@@ -42,8 +40,6 @@ class ChatModelTest extends TestCase
 
     public function test_get(): void
     {
-        Schema::connection('mysql_test');
-
         DB::beginTransaction();
         $addUserResult = User::add([
             "USERNAME" => "Dr. Test",
@@ -74,8 +70,6 @@ class ChatModelTest extends TestCase
 
     public function test_deleteChat(): void
     {
-        Schema::connection('mysql_test');
-
         DB::beginTransaction();
         $addUserResult = User::add([
             "USERNAME" => "Dr. Test",
@@ -107,8 +101,6 @@ class ChatModelTest extends TestCase
 
     public function test_getAllWhereIsUser(): void
     {
-        Schema::connection('mysql_test');
-
         DB::beginTransaction();
         $addUserResult = User::add([
             "USERNAME" => "Dr. Test",

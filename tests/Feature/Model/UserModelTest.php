@@ -14,8 +14,6 @@ class UserModelTest extends TestCase
 
     public function test_add(): void
     {
-        Schema::connection('mysql_test');
-
         DB::beginTransaction();
         $addResult = User::add([
             "USERNAME" => "Dr. Test",
@@ -32,8 +30,6 @@ class UserModelTest extends TestCase
 
     public function test_delete(): void
     {
-        Schema::connection('mysql_test');
-
         DB::beginTransaction();
         $addResult = User::add([
             "USERNAME" => "Dr. Test",
@@ -52,8 +48,6 @@ class UserModelTest extends TestCase
 
     public function test_getBy(): void
     {
-        Schema::connection('mysql_test');
-
         DB::beginTransaction();
         $addResult = User::add([
             "USERNAME" => "Dr. Test",
@@ -71,7 +65,6 @@ class UserModelTest extends TestCase
 
     public function test_editPassword(): void
     {
-        Schema::connection('mysql_test');
         $newPassword = app("PasswordManager")::createRandomPassword();
 
         DB::beginTransaction();
@@ -95,8 +88,6 @@ class UserModelTest extends TestCase
 
     public function test_updateRememberToken(): void
     {
-        Schema::connection('mysql_test');
-
         DB::beginTransaction();
         $addResult = User::add([
             "USERNAME" => "Dr. Test",
