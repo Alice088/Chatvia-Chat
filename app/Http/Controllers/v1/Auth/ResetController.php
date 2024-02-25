@@ -20,7 +20,7 @@ class ResetController extends Controller
                 return new ErrorResource($data);
             } else {
                 $newPassword = (string) app("PasswordManager")::createRandomPassword();
-                User::editPassword($data["USER"]->ID, $newPassword);
+                User::editPassword($data["USER"]->USER_ID, $newPassword);
 
                 // return (new ResetMail($newPassword))->render();
 

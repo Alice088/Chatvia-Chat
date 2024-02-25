@@ -14,14 +14,24 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            "data" => [
-                "ERROR"     => false,
-                "ID"        => $this["USER"]->USER_ID,
-                "USERNAME"  => $this["USER"]->USERNAME,
-                "CHATS" => $this["USER"]->CHATS,
-            ]
-        ];
+        try {
+            $resource = [
+                "data" => [
+                    "ERROR"    => false,
+                    "ID"       => $this["USER"]->USER_ID,
+                    "USERNAME" => $this["USER"]->USERNAME,
+                    "CHATS"    => $this["USER"]->CHATS,
+                ]
+            ];
+
+            return $resource;
+        } catch (\Exception $error) {
+            return [
+                "ERROR"         => true,
+                "ERROR_MESSAGE" => "Something went wrong",
+                "ERROR_CODE"    => 500,
+            ];
+        }
     }
 }
 

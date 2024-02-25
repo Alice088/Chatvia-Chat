@@ -17,7 +17,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            "USERNAME"       => fake()->name(),
+            "USERNAME"       => "Fake name",
             "EMAIL"          => fake()->unique()->safeEmail(),
             "PASSWORD"       => fake()->unique()->password(),
             "REMEMBER_TOKEN" => app("RememberTokenManager")::createRememberToken()

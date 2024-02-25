@@ -5,7 +5,6 @@ namespace Tests\Feature\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Support\Facades\Schema;
 use DB;
 
 class UserModelTest extends TestCase
