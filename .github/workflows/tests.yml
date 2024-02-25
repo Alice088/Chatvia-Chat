@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop
       - '*.x'
   pull_request:
   schedule:
@@ -17,15 +18,16 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        php: [8.1, 8.2, 8.3]
+        php: [8.3]
 
     name: PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -33,15 +35,40 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
           coverage: none
+      - run: echo "PHP setup"
+
+      - name: Update Composer dependencies
+        run: composer update
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-progress
+        
+      - run: echo "Composer dependencies have been installed"
 
       - name: Copy environment file
         run: cp .env.example .env
 
       - name: Generate app key
         run: php artisan key:generate
+      
+      - name: Make migrate
+        run: php artisan migrate --force
+        env:
+          DATABASE_URL: ${{ vars.DATABASE_URL }}
+          DB_DATABASE: ${{ vars.DB_DATABASE }}
+          DB_HOST: ${{ vars.DB_HOST }}
+          DB_PASSWORD: ${{ vars.DB_PASSWORD }}
+          DB_PORT: ${{ vars.DB_PORT }}
+          DB_USERNAME: ${{ vars.DB_USERNAME }} 
 
+      - run: echo "made migration"
+        
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit tests/Feature
+        env:
+          DATABASE_URL: ${{ vars.DATABASE_URL }}
+          DB_DATABASE: ${{ vars.DB_DATABASE }}
+          DB_HOST: ${{ vars.DB_HOST }}
+          DB_PASSWORD: ${{ vars.DB_PASSWORD }}
+          DB_PORT: ${{ vars.DB_PORT }}
+          DB_USERNAME: ${{ vars.DB_USERNAME }} 
